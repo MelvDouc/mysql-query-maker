@@ -1,0 +1,6 @@
+.vscode
+local
+src
+tests
+
+tsconfig.json
