@@ -5,7 +5,8 @@
   "exports": "./dist/index.js",
   "scripts": {
     "test": "tsx --test",
-    "build": "tsup src/index.ts --outDir=dist --format=esm --treeshake --dts"
+    "build": "tsup src/index.ts --outDir=dist --format=esm --treeshake --dts",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [],
   "author": "",
