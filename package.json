@@ -1,6 +1,6 @@
 {
   "name": "mysql-query-maker",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "exports": "./dist/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "@types/chai": "^4.3.17",
     "@types/node": "^22.1.0",
     "chai": "^5.1.1",
-    "node-html-parser": "^6.1.13",
+    "class-traits": "^1.0.1",
     "tsup": "^8.2.4",
     "tsx": "^4.16.5",
     "typescript": "^5.5.4"

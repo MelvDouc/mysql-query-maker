@@ -7,10 +7,10 @@ import {
   update
 } from "$/functions.js";
 import type CreateTableStatementBuilder from "$/statements/create-table/CreateTableStatementBuilder.js";
+import type DeleteStatementBuilder from "$/statements/DeleteStatementBuilder.js";
 import type InsertStatementBuilder from "$/statements/InsertStatementBuilder.js";
-import type DeleteStatementBuilder from "$/statements/limitable/DeleteStatementBuilder.js";
-import type SelectStatementBuilder from "$/statements/limitable/SelectStatementBuilder.js";
-import type UpdateStatementBuilder from "$/statements/limitable/UpdateStatementBuilder.js";
+import type SelectStatementBuilder from "$/statements/SelectStatementBuilder.js";
+import type UpdateStatementBuilder from "$/statements/UpdateStatementBuilder.js";
 
 export {
   createTable,

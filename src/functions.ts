@@ -1,8 +1,8 @@
 import CreateTableStatementBuilder from "$/statements/create-table/CreateTableStatementBuilder.js";
+import DeleteStatementBuilder from "$/statements/DeleteStatementBuilder.js";
 import InsertStatementBuilder from "$/statements/InsertStatementBuilder.js";
-import DeleteStatementBuilder from "$/statements/limitable/DeleteStatementBuilder.js";
-import SelectStatementBuilder from "$/statements/limitable/SelectStatementBuilder.js";
-import UpdateStatementBuilder from "$/statements/limitable/UpdateStatementBuilder.js";
+import SelectStatementBuilder from "$/statements/SelectStatementBuilder.js";
+import UpdateStatementBuilder from "$/statements/UpdateStatementBuilder.js";
 import type { StringRecord } from "$/types.js";
 
 export function selectFrom(table: string) {

@@ -1,9 +1,18 @@
-import LimitableStatementBuilder from "$/statements/limitable/LimitableStatementBuilder.js";
+import StatementBuilder from "$/statements/StatementBuilder.js";
+import FilterTrait from "$/traits/FilterTrait.js";
+import LimitableTrait from "$/traits/LimitableTrait.js";
+import OrderableTrait from "$/traits/OrderableTrait.js";
 import type { SqlRecord } from "$/types.js";
+import { UseTraits } from "class-traits";
 
-export default class UpdateStatementBuilder extends LimitableStatementBuilder {
+interface UpdateStatementBuilder extends FilterTrait, LimitableTrait, OrderableTrait { }
+
+@UseTraits(LimitableTrait, FilterTrait, OrderableTrait)
+class UpdateStatementBuilder extends StatementBuilder {
   private readonly _updates: Record<string, string> = {};
-  declare private _where: string;
+  protected _where = "";
+  protected readonly _orderBy: string[] = [];
+  protected _limit = 0;
 
   /**
    * @param column The table column to update.
@@ -11,11 +20,6 @@ export default class UpdateStatementBuilder extends LimitableStatementBuilder {
    */
   public set(column: string, value: string) {
     this._updates[column] = value;
-    return this;
-  }
-
-  public where(condition: string) {
-    this._where = condition;
     return this;
   }
 
@@ -42,3 +46,5 @@ export default class UpdateStatementBuilder extends LimitableStatementBuilder {
       .join(",\n");
   }
 }
+
+export default UpdateStatementBuilder;

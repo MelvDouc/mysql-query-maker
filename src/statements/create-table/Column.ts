@@ -8,8 +8,10 @@ export default class Column {
 
   public toString() {
     let output = `${this.name} ${this.type}`;
-    this.nullable || (output += " NOT NULL");
-    this.defaultValue === undefined || (output += ` DEFAULT ${this.defaultValue}`);
+    if (!this.nullable)
+      output += " NOT NULL";
+    if (this.defaultValue !== undefined)
+      output += ` DEFAULT ${this.defaultValue}`;
     return output;
   }
 }

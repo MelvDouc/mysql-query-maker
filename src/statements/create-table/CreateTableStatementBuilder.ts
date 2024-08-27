@@ -32,14 +32,14 @@ export default class CreateTableStatementBuilder extends StatementBuilder {
     return this;
   }
 
-  public unique(name: string, column: string) {
-    this._constraints.push(new UniqueContraint(name, column));
+  public unique(constraintName: string, column: string) {
+    this._constraints.push(new UniqueContraint(constraintName, column));
     return this;
   }
 
-  public foreignKey(name: string, column: string, foreignTable: string, foreignColumn: string) {
+  public foreignKey(constraintName: string, column: string, foreignTable: string, foreignColumn: string) {
     this._constraints.push(
-      new ForeignKeyConstraint(name, column, foreignTable, foreignColumn)
+      new ForeignKeyConstraint(constraintName, column, foreignTable, foreignColumn)
     );
     return this;
   }

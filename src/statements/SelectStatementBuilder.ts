@@ -1,13 +1,21 @@
-import LimitableStatementBuilder from "$/statements/limitable/LimitableStatementBuilder.js";
+import StatementBuilder from "$/statements/StatementBuilder.js";
+import FilterTrait from "$/traits/FilterTrait.js";
+import JoinTrait from "$/traits/JoinTrait.js";
+import LimitableTrait from "$/traits/LimitableTrait.js";
+import OrderableTrait from "$/traits/OrderableTrait.js";
 import type { SqlRecord } from "$/types.js";
-import { createJoinFn, joinSymbol } from "$/utils/join.js";
+import { UseTraits } from "class-traits";
 
-export default class SelectStatementBuilder extends LimitableStatementBuilder {
+interface SelectStatementBuilder extends JoinTrait, FilterTrait, LimitableTrait, OrderableTrait { }
+
+@UseTraits(JoinTrait, FilterTrait, LimitableTrait, OrderableTrait)
+class SelectStatementBuilder extends StatementBuilder {
   private readonly _columns: string[] = [];
   private readonly _groupBy: string[] = [];
-  private _where = "";
-  public readonly [joinSymbol]: string[] = [];
-  public readonly join = createJoinFn<SelectStatementBuilder>(this);
+  protected _where = "";
+  protected readonly _joins: string[] = [];
+  protected readonly _orderBy: string[] = [];
+  protected _limit = 0;
 
   public column(column: string) {
     this._columns.push(column);
@@ -24,21 +32,17 @@ export default class SelectStatementBuilder extends LimitableStatementBuilder {
     return this;
   }
 
-  public where(condition: string) {
-    this._where = condition;
-    return this;
-  }
-
   public groupBy(...columns: string[]) {
     this._groupBy.push(...columns);
     return this;
   }
 
   public getSql(params: SqlRecord = {}) {
-    const stringBuilder = this._createStringBuilder("SELECT $0", this._columns.join(", "));
+    const stringBuilder = this._createStringBuilder("SELECT");
+    stringBuilder.addLine(this._columns.join(",\n"));
     stringBuilder.addLine("FROM $0", this._table);
 
-    this[joinSymbol].forEach((join) => stringBuilder.addLine(join));
+    this._joins.forEach((join) => stringBuilder.addLine(join));
 
     if (this._where)
       stringBuilder.addLine("WHERE $0", this._addParams(this._where, params));
@@ -55,3 +59,5 @@ export default class SelectStatementBuilder extends LimitableStatementBuilder {
     return stringBuilder.getOutput();
   }
 }
+
+export default SelectStatementBuilder;
