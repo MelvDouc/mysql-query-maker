@@ -17,4 +17,8 @@ export default class ForeignKeyConstraint extends Constraint {
   public toString() {
     return `CONSTRAINT ${this._name} FOREIGN KEY (${this._column}) REFERENCES ${this._foreignTable} (${this._foreignColumn})`;
   }
+
+  public toDropConstraintString(table: string) {
+    return `ALTER TABLE ${table} DROP CONSTRAINT ${this._name}`;
+  }
 }

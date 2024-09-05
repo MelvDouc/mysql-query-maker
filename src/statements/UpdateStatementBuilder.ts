@@ -18,14 +18,13 @@ class UpdateStatementBuilder extends StatementBuilder {
    * @param column The table column to update.
    * @param value Either a placeholder like `:id` or raw SQL code like `col1 + 1`.
    */
-  public set(column: string, value: string) {
+  public set(column: string, value: string): this {
     this._updates[column] = value;
     return this;
   }
 
-  public getSql(params: SqlRecord = {}) {
-    const stringBuilder = this._createStringBuilder("UPDATE $0", this._table);
-    stringBuilder.addLine("SET");
+  public getSql(params: SqlRecord = {}): string {
+    const stringBuilder = this._createStringBuilder("UPDATE $0 SET", this._table);
     stringBuilder.addLine(this._getUpdates(params));
 
     if (this._where)
@@ -40,7 +39,7 @@ class UpdateStatementBuilder extends StatementBuilder {
     return stringBuilder.getOutput();
   }
 
-  private _getUpdates(params: SqlRecord) {
+  private _getUpdates(params: SqlRecord): string {
     return Object.entries(this._updates)
       .map(([column, value]) => `  ${column} = ${this._addParams(value, params)}`)
       .join(",\n");

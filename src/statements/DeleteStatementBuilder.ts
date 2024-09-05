@@ -16,16 +16,16 @@ class DeleteStatementBuilder extends StatementBuilder {
   protected readonly _orderBy: string[] = [];
   protected _limit = 0;
 
-  public using(using: string) {
+  public using(using: string): this {
     this._using = using;
     return this;
   }
 
-  private _isMultiTable() {
+  private _isMultiTable(): boolean {
     return this._using !== "";
   }
 
-  public getSql(params: SqlRecord = {}) {
+  public getSql(params: SqlRecord = {}): string {
     const stringBuilder = this._createStringBuilder("DELETE FROM $0", this._table);
 
     if (this._isMultiTable()) {

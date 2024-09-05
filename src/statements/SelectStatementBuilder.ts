@@ -4,6 +4,7 @@ import JoinTrait from "$/traits/JoinTrait.js";
 import LimitableTrait from "$/traits/LimitableTrait.js";
 import OrderableTrait from "$/traits/OrderableTrait.js";
 import type { SqlRecord } from "$/types.js";
+import { joinAlias } from "$/utils/string-utils.js";
 import { UseTraits } from "class-traits";
 
 interface SelectStatementBuilder extends JoinTrait, FilterTrait, LimitableTrait, OrderableTrait { }
@@ -17,27 +18,27 @@ class SelectStatementBuilder extends StatementBuilder {
   protected readonly _orderBy: string[] = [];
   protected _limit = 0;
 
-  public column(column: string) {
-    this._columns.push(column);
+  public column(column: string, alias?: string): this {
+    this._columns.push(joinAlias(column, alias));
     return this;
   }
 
-  public columnIf(condition: string, valueIfTrue: string, valueIfFalse: string, alias: string) {
+  public columnIf(condition: string, valueIfTrue: string, valueIfFalse: string, alias: string): this {
     this._columns.push(`IF(${condition}, ${valueIfTrue}, ${valueIfFalse}) ${alias}`);
     return this;
   }
 
-  public columnIfNull(expression: string, altValue: string, alias: string) {
+  public columnIfNull(expression: string, altValue: string, alias: string): this {
     this._columns.push(`IFNULL(${expression}, ${altValue}) ${alias}`);
     return this;
   }
 
-  public groupBy(...columns: string[]) {
+  public groupBy(...columns: string[]): this {
     this._groupBy.push(...columns);
     return this;
   }
 
-  public getSql(params: SqlRecord = {}) {
+  public getSql(params: SqlRecord = {}): string {
     const stringBuilder = this._createStringBuilder("SELECT");
     stringBuilder.addLine(this._columns.join(",\n"));
     stringBuilder.addLine("FROM $0", this._table);

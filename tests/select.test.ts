@@ -34,9 +34,9 @@ test("Select with params", () => {
 });
 
 test("String escaping", () => {
-  const statement = selectFrom("table1")
+  const statement = selectFrom("table1", "t1")
     .column("*")
     .where("name = :name")
     .getSql({ name: '"' });
-  expect(statement).to.equal('SELECT\n*\nFROM table1\nWHERE name = "\\""');
+  expect(statement).to.equal('SELECT\n*\nFROM table1 t1\nWHERE name = "\\""');
 });

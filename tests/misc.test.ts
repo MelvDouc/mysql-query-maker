@@ -8,8 +8,8 @@ test("jsonObject", () => {
     address: jsonObject({
       street: "t1.street",
       zipCode: "t1.zip_code"
-    })
-  });
+    }).getOutput()
+  }).getOutput();
   const nested = 'JSON_OBJECT("street", t1.street, "zipCode", t1.zip_code)';
   expect(result).to.equal(`JSON_OBJECT("id", t1.id, "address", ${nested})`);
 });

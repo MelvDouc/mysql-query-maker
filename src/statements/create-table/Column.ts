@@ -6,7 +6,7 @@ export default class Column {
     public readonly defaultValue?: string
   ) { }
 
-  public toString() {
+  public toString(): string {
     let output = `${this.name} ${this.type}`;
     if (!this.nullable)
       output += " NOT NULL";
